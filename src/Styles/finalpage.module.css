@@ -128,3 +128,14 @@ h1{
 .ckbx:checked {
     border: 3px solid black;
 }
+.experience{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.description{
+    width: fit-content;
+    overflow: hidden;
+    outline: none;
+    border: none;
+}

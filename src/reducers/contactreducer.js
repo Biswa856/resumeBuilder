@@ -1,8 +1,8 @@
 let initialState={
-    name:'Kingsuk',
-    email:'kingsuk@gmail.com',
+    name:'',
+    email:'',
     streetAddress:'',
-    city:'Kolkata',
+    city:'',
     country:'',
     phonenumber:'',
     phonenumber2:'',

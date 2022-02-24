@@ -2,15 +2,17 @@ import React, { useState } from 'react'
 import styles from '../Styles/finalpage.module.css'
 import { useSelector, useDispatch } from "react-redux"
 import { finalizeAction } from '../Actions/finalizeAction'
-import finalizeReducer from '../reducers/finalizeReducer'
-import reactDom from 'react-dom'
+
 
 export default function Finalpage() {
   const { ContactUpdate } = useSelector((state) => state)
   const { workExpReducer } = useSelector((state) => state)
+  const{educationUpdate} = useSelector((state)=> state)
   const finalizeReducer = useSelector((state) => state.finalizeReducer);
   const [document, setDocument] = useState(finalizeReducer.document)
   const colorClass = "color" + document.color;
+  const fontsizeClass = "fontsize"+document.fontsize;
+  // console.log(fontsizeClass);
 
 
   const dispatch = useDispatch();
@@ -23,15 +25,24 @@ export default function Finalpage() {
       [name]: value,
 
     })
-    console.log(document);
+    // console.log(document);
 
-    dispatch(finalizeAction(document))
+    
   }
   React.useEffect(() => {
-
+    dispatch(finalizeAction(document))
   }, [document])
+ 
 
   let colorArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+   function getDate(month,year){
+     console.log(month,year);
+        var date = new Date(`1-${month}-${year}`)
+        var monthName = ['January','February','March','April','May','June','July','August','September','October','November','December']
+        var month = monthName[date.getMonth()]
+        return `${month} ${year}`
+   }
   return (
     <div>
       <div className={styles.left}>
@@ -41,29 +52,45 @@ export default function Finalpage() {
             (<div><div style={{ display: 'flex' }}><div className={`${styles.box} ${colorClass}`
             }></div>
               <h1>{ContactUpdate.name}</h1></div>
-              <p style={{ fontSize: "small" }}>{ContactUpdate.streetAddress},{ContactUpdate.city},{ContactUpdate.country},{ContactUpdate.phonenumber},{ContactUpdate.phonenumber2}</p>
-              <p style={{ fontSize: "small" }}>{ContactUpdate.email}</p></div>)
+              
+              <p  className={fontsizeClass}>{ContactUpdate.streetAddress},{ContactUpdate.city},{ContactUpdate.country},{ContactUpdate.phonenumber},{ContactUpdate.phonenumber2}</p>
+              <p  className={fontsizeClass}>{ContactUpdate.email}</p></div>)
           }
 
           {/* experience */}
           {/* render this section  if  experience containg company name */}
 
           {workExpReducer.company &&
-            (<div className={styles.experience}>
-              <p style={{ marginLeft: "0px", fontWeight: 'bolder', paddingTop: "25px" }}>EXPERIENCE</p>
+            (<div className={`${styles.experience} ${fontsizeClass}`}>
+              <p style={{ marginLeft: "0px", fontWeight: 'bolder', padding: "10px" }}className={`${styles.heading} ${colorClass}`
+            }>EXPERIENCE</p>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <p style={{ fontSize: "small" }}>{workExpReducer.jobTitle}</p>
-                <p style={{ fontSize: "small" }}>{workExpReducer.startMonth} {workExpReducer.startYear} - {workExpReducer.endMonth} {workExpReducer.endYear}</p>
+                <p >{workExpReducer.jobTitle}</p>
+                {/* <p style={{ fontSize: "small" }}>{workExpReducer.startMonth} {workExpReducer.startYear} - {workExpReducer.endMonth} {workExpReducer.endYear}</p> */}
+                <p>{getDate(workExpReducer.startMonth,workExpReducer.startYear)}- {getDate(workExpReducer.endMonth,workExpReducer.endYear)}</p>
+
               </div>
               <p style={{ fontSize: "small", marginTop: "0px" }}>{workExpReducer.company} | {workExpReducer.city}, {workExpReducer.country}</p>
-              <p>{workExpReducer.description}</p>
+              <textarea rows="5" cols="100" className={styles.description}>{workExpReducer.description}</textarea>
             </div>)
           }
 
+         <div className={`${styles.education} ${fontsizeClass}`}>
+         <p style={{ marginLeft: "0px", fontWeight: 'bolder', padding: "10px" }}className={`${styles.heading} ${colorClass}`
+            }>EDUCATION</p>
+
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <p>{educationUpdate.schoolname}</p>
+                <p>{educationUpdate.month} - {educationUpdate.year}</p>
+                </div>
+         </div>
+
 
         </div>
+      
       </div>
-
+    
+                                                   {/* right side styling */}
       <div className={styles.right}>
         <div className={styles.rightcontainertop}>
           <h1 className={styles.header}>Here's Your Resume</h1>
@@ -94,21 +121,21 @@ export default function Finalpage() {
 
                 <select className={styles.drop}>
 
-                  <option value="fs1">Raleway</option>
-                  <option value="fs2">Ubuntu</option>
-                  <option value="fs3">Montserrat</option>
-                  <option value="fs4">Source Sans Pro</option>
-                  <option value="fs5">Hind</option>
-                  <option value="fs6">Times New Roman</option>
-                  <option value="fs7">Roboto</option>
+                  <option value={1}>Raleway</option>
+                  <option value={2}>Ubuntu</option>
+                  <option value={3}>Montserrat</option>
+                  <option value={4}>Source Sans Pro</option>
+                  <option value={5}>Hind</option>
+                  <option value={6}>Times New Roman</option>
+                  <option value={7}>Roboto</option>
                 </select>
               </div>
               <div><p style={{ marginBottom: "5px" }}>Font Size</p>
-                <select className={styles.drop}>
+                <select className={styles.drop} name="fontsize"  onChange={handleChange} >
 
-                  <option value="small">Small</option>
-                  <option value="medium">Medium</option>
-                  <option value="large">Large</option>
+                  <option value={1}  >Small</option>
+                  <option value={2} >Medium</option>
+                  <option  value={3}>Large</option>
                 </select>
               </div>
             </div>
@@ -118,7 +145,7 @@ export default function Finalpage() {
                 {
                    
                   colorArr.map(ele => (
-                    <div><input type='checkbox' name="color" value={ele}  onClick={handleChange} className={`${styles.ckbx} color${ele}`} /></div>
+                    <div key={ele}><input type='checkbox' name="color" value={ele}  onClick={handleChange} className={`${styles.ckbx} color${ele}`} /></div>
                   ))
                 }
                 {/* <div><input type='checkbox' onClick={handleChange} name='color' value={1} className={styles.ckbx} style={{ background: "green" }} /></div>

@@ -6,7 +6,8 @@ import { workexpAction } from '../Actions/workExpAction'
 
 export default function Workexp() {
     const { workExpReducer } = useSelector((state) => state);
-    const month = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const month = {'January':1,'February':2,'March':3,'April':4,'May':5,'June':6,'July':7,'August':8,'September':9,'October':10,'November':11,'December':12};
+    
 
     // console.log(workExpReducer);
     const dispatch = useDispatch();
@@ -19,44 +20,63 @@ export default function Workexp() {
         startYear: workExpReducer.startYear,
         endMonth: workExpReducer.endMonth,
         endYear: workExpReducer.endYear,
-        description: workExpReducer.description
+        description: workExpReducer.description,
+        isInvalid:false
     })
+    
 
     let obj = {}
 
     function change(e) {
         let { id,value } = e.target
+        
         setForm({
             ...form,
             [id]: value
+           
         })
+        console.log(value);
     }
 
-    function handleChange() {
+    async function  handleChange() {
         let isInvalid = false;
-     if(form.startYear<=form.endYear){
-         if(form.startYear==form.endYear && form.startMonth>form.endMonth){
+       console.log("before if",parseInt(form.startYear) <= parseInt(form.endYear));
+       console.log("before if",form.startYear==form.endYear && form.startMonth>form.endMonth);
+       console.log("before if",form.startYear, form.endYear,typeof parseInt(form.startYear));
+    //    console.log("before if",form.startYear==form.endYear && form.startMonth>form.endMonth);
+     if(parseInt(form.startYear) <= parseInt(form.endYear)){
+         if(parseInt(form.startYear)==parseInt(form.endYear) && parseInt(form.startMonth)>parseInt(form.endMonth)){
              isInvalid = true;
          }
      }else{
          isInvalid = true;
      }
+     console.log("51",form.isInvalid);
+     form.isInvalid = isInvalid;
+     await setForm({
+        ...form,  
+
+    })
+    console.log(form.isInvalid);
        if(!isInvalid){
         obj.jobTitle = form.jobTitle
         obj.company = form.company
         obj.city = form.city
         obj.country= form.country
-        obj.startMonth=month[form.startMonth]
+        obj.startMonth=form.startMonth
         obj.startYear= form.startYear
-        obj.endMonth = month[form.endMonth]
+        obj.endMonth = form.endMonth
         obj.endYear = form.endYear
         obj.description = form.description
-
+        obj.isInvalid = form.isInvalid
+         
 
         dispatch(workexpAction(obj))
 
        }
-       obj.isInvalid = isInvalid;
+    //    console.log(obj);
+
+    //    obj.isInvalid = isInvalid;
         // console.log(obj);
 
     }
@@ -99,24 +119,24 @@ export default function Workexp() {
                     </div>
                     <div className={styles.label}>Start Date</div>
                     <div className={styles.inputbox}>
-                        <select className={styles.Month} onChange={change} id='startMonth'value={month[form.startMonth]}>
-                            <option value="" disabled selected>Month</option>
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
+                        <select className={styles.Month} onChange={change} id='startMonth'value={form.startMonth}>
+                            <option  value=""disabled selected>Month</option>
+                            <option >January</option>
+                            <option >February</option>
+                            <option >March</option>
+                            <option >April</option>
+                            <option >May</option>
+                            <option >June</option>
+                            <option >July</option>
+                            <option >August</option>
+                            <option >September</option>
+                            <option >October</option>
+                            <option >November</option>
+                            <option >December</option>
                         </select>
                         <select className={styles.Year} onChange={change} id='startYear'value={form.startYear}>
                             <option value="" disabled selected>Year</option>
-                             <option value={2021}>2022</option>
+                             <option>2022</option>
                              <option>2021</option>
                             <option>2020</option>
                             <option>2019</option>
@@ -134,20 +154,20 @@ export default function Workexp() {
                     </div>
                     <div className={styles.label}>End Date</div>
                     <div className={styles.inputbox}>
-                        <select className={styles.Month}onChange={change} id='endMonth'value={month[form.endMonth]}>
-                            <option value="" disabled selected>Month</option>
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
+                        <select className={styles.Month}onChange={change} id='endMonth'value={form.endMonth}>
+                            <option value ="" disabled selected>Month</option>
+                            <option >January</option>
+                            <option >February</option>
+                            <option >March</option>
+                            <option >April</option>
+                            <option >May</option>
+                            <option >June</option>
+                            <option >July</option>
+                            <option >August</option>
+                            <option >September</option>
+                            <option >October</option>
+                            <option >November</option>
+                            <option >December</option>
                         </select>
                         <select className={styles.Year} onChange={change} id='endYear'value={form.endYear}>
                             <option value="" disabled selected>Year</option>
@@ -177,7 +197,7 @@ export default function Workexp() {
 
                     <div className={styles.submit}>
 
-                       {!obj.isInvalid && <Link to='/education'><input type="submit" value="Enter Job Description" onClick={handleChange} /></Link>}
+                        <Link to={!form.isInvalid ?'/education':''}><input type="submit" value="Enter Job Description" onClick={handleChange}  /></Link>
                     </div>
                     <div className={styles.back}>
                         <Link to='/contactinfo' style={{ textDecoration: "none" }}><a style={{ color: '#03acbb', fontWeight: 'bold' }}> Back </a></Link>
