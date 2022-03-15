@@ -1,13 +1,14 @@
-*{
-    
-    font-family: "Raleway",Arial,"Times New Roman",Times,sans-serif;
-    
-} 
+
 
 .box{
     height:80px;
     width:80px;
-    /* background-color: black; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #f7f7f7;
+    font-size: xx-large;
+    font-weight: bold;
 }
 
 h1{
@@ -16,26 +17,9 @@ h1{
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  .leftcontainer{
     /* background-color: #ffffff; */
-    height: 650px;
+    height: 900px;
     width: 700px;
     box-shadow: 0 2px 7px rgb(0 0 0 / 32%);
     margin-bottom: 50px;
@@ -48,7 +32,7 @@ h1{
     background-color:#f7f7f7;
     box-shadow: 0 2px 5px rgb(0 0 0 / 40%);
     position: absolute;
-    top: 52px;
+    top: 59px;
     right: 0;
     bottom: 0;
     max-width: 440px;
@@ -85,6 +69,10 @@ h1{
     border: none;
     border-radius: 3px;
     margin-left: 20px;
+    cursor: pointer;
+}
+.btn1:hover{
+    border: 1px solid black;
 }
 .formatting{
     margin-left:20px;
@@ -129,13 +117,21 @@ h1{
     border: 3px solid black;
 }
 .experience{
-    display: flex;
-    flex-direction: column;
+  flex-direction: column;
     flex-wrap: wrap;
 }
 .description{
-    width: fit-content;
-    overflow: hidden;
-    outline: none;
-    border: none;
+    
+    
+    word-wrap: break-word;
 }
+.skills{
+  width: 80%;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 30px;
+  
+}
+
+
+

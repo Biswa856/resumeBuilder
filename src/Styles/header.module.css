@@ -1,5 +1,6 @@
 .logo{
     margin-right: auto;
+    
 }
 .contents{
     display: flex;
@@ -12,9 +13,14 @@
     padding:5px;
 }
 .signupbtn{
-    border-radius: 10%;
-    border: 2px solid blue;
+    
     padding:5px;
     color: blue;
     font-weight: bold;
+}
+.active{
+    border-radius: 10%;
+    border: 3px solid chartreuse;
+    background-color:forestgreen;
+   
 }

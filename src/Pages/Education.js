@@ -3,9 +3,11 @@ import styles from "../Styles/education.module.css"
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { eduAction } from '../Actions/educationAction'
+import { doc,getDoc, setDoc,getFirestore } from "firebase/firestore";
 export default function Education() {
-
+   const db = getFirestore();
    const { educationUpdate } = useSelector((state) => state)
+   const{signinReducer} = useSelector((state)=>state)
    // console.log(educationUpdate);
    const dispatch = useDispatch();
    const [form, setForm] = useState({
@@ -27,7 +29,7 @@ export default function Education() {
       })
    }
 
-   function submit(){
+   async function submit(){
       obj.schoolname=form.schoolname
       obj.city = form.city
       obj.country = form.country
@@ -37,6 +39,11 @@ export default function Education() {
       obj.description = form.description
       dispatch(eduAction(obj))
       // console.log(obj);
+      const userdoc = doc(db, "user",signinReducer.uid );
+      var user = await getDoc(userdoc);
+      user = user.data() 
+      
+      await setDoc(userdoc,{...user,Education:obj});
    }
    return (
       <div>
@@ -45,7 +52,7 @@ export default function Education() {
                <span>Education</span>
             </div>
             <div className={styles.headertitle}>Start with your most recent educational institution.</div>
-
+            
             <div className={styles.label}>School Name</div>
             <div className={styles.inputbox}><input type='text' onChange={handlechange} id='schoolname' value={form.schoolname} /></div>
             <div className={styles.flex}>
@@ -92,7 +99,7 @@ export default function Education() {
                   </select>
                </div>
                <div className={styles.label}>Description</div>
-               <textarea rows="10" cols="86" name="comment" placeholder='Enter education description' onChange={handlechange} id='description' value={form.description} style={{ paddingTop: '10px', paddingLeft: '5px' }}/>
+               <textarea rows="10" cols="78" name="comment" placeholder='Enter education description' onChange={handlechange} id='description' value={form.description} style={{ paddingTop: '10px', paddingLeft: '5px' }}/>
                
 
                <div className={styles.submit}>

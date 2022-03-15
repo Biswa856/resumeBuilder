@@ -1,7 +1,4 @@
-*{
-    /* background-color: #fff; */
-    font-family: "Raleway",Arial,"Times New Roman",Times,sans-serif;
-} 
+
  .container{
     background-color: #ffffff;
     height: 650px;
@@ -37,6 +34,8 @@ input[type=text]{
 }
 .inputbox{
     padding: 10px 0px 10px 0px;
+    display: flex;
+    column-gap: 10px;
 }
 input[type=text].small{
     width: 48%;

@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom'
 import styles from "../Styles/contact.module.css"
 import { useDispatch, useSelector } from 'react-redux'
 import { contfill } from '../Actions/contactAction'
+import { doc, setDoc,getFirestore,getDoc } from "firebase/firestore";
 
 export default function Contact() {
     const dispatch = useDispatch()
+    const{signinReducer} = useSelector((state)=>state)
     const { ContactUpdate } = useSelector((state) => state)
 
     // console.log(email);
@@ -19,6 +21,8 @@ export default function Contact() {
         phonenumber: ContactUpdate.phonenumber,
         phonenumber2: ContactUpdate.phonenumber2,
     })
+
+    const db = getFirestore();
 
     let obj = {}
 
@@ -46,7 +50,7 @@ export default function Contact() {
         // }
 
     }
-    function submit() {
+    async function submit() {
 
         //add validation to check empty fields
         obj.name = form.name;
@@ -57,6 +61,17 @@ export default function Contact() {
         obj.phonenumber = form.phonenumber;
         obj.phonenumber2 = form.phonenumber2;
         dispatch(contfill(obj))
+     
+       try { const userdoc = doc(db, "user",signinReducer.uid );
+        var user = await getDoc(userdoc);
+        user = user.data() 
+        
+        await setDoc(userdoc,{...user,contact:form});
+    }catch(err){
+
+        console.error(err);
+
+    }
 
     }
 

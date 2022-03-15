@@ -1,6 +1,6 @@
-export const finalizeAction = (document)=>{
+export const finalizeAction = (doc)=>{
     return {
-        type: "DOCUMENT_STYLE_CHANGE",
-        payload: document
+        type: "doc_STYLE_CHANGE",
+        payload: doc
     };
 }

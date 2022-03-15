@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styles from "../Styles/workexp.module.css"
 import { useDispatch, useSelector } from "react-redux"
 import { workexpAction } from '../Actions/workExpAction'
+import { doc,getDoc, setDoc,getFirestore } from "firebase/firestore";
+
 
 export default function Workexp() {
+    const db = getFirestore();
+    const{signinReducer} = useSelector((state)=>state)
     const { workExpReducer } = useSelector((state) => state);
     const month = {'January':1,'February':2,'March':3,'April':4,'May':5,'June':6,'July':7,'August':8,'September':9,'October':10,'November':11,'December':12};
     
@@ -38,6 +42,13 @@ export default function Workexp() {
         console.log(value);
     }
 
+ 
+    
+ 
+ 
+ 
+    
+
     async function  handleChange() {
         let isInvalid = false;
        console.log("before if",parseInt(form.startYear) <= parseInt(form.endYear));
@@ -69,17 +80,26 @@ export default function Workexp() {
         obj.endYear = form.endYear
         obj.description = form.description
         obj.isInvalid = form.isInvalid
+    }
          
 
-        dispatch(workexpAction(obj))
+        dispatch(workexpAction(obj));
+        
+        const userdoc = doc(db, "user",signinReducer.uid );
+        var user = await getDoc(userdoc);
+        user = user.data() 
+        
+        await setDoc(doc(db, "user",signinReducer.uid ),{...user,Workexp:form});
 
-       }
+     
     //    console.log(obj);
 
     //    obj.isInvalid = isInvalid;
         // console.log(obj);
 
     }
+
+    
 
     // let date = new Date();
     // let currentYear = date.getFullYear();
@@ -190,14 +210,14 @@ export default function Workexp() {
                         <label>  Currently Work Here</label>
 
                         <div className={styles.label}>Description</div>
-               <textarea rows="10" cols="86" name="comment" placeholder='Enter work experience description' onChange={change} id='description' value={form.description} style={{ paddingTop: '10px', paddingLeft: '5px' }}/>
+               <textarea rows="10" cols="78" name="comment" placeholder='Enter work experience description' onChange={change} id='description' value={form.description} style={{ paddingTop: '10px', paddingLeft: '5px' }}/>
                
 
                     </div>
 
                     <div className={styles.submit}>
 
-                        <Link to={!form.isInvalid ?'/education':''}><input type="submit" value="Enter Job Description" onClick={handleChange}  /></Link>
+                        <Link to={!form.isInvalid ?'/education':''}><input type="submit" onClick={handleChange}  /></Link>
                     </div>
                     <div className={styles.back}>
                         <Link to='/contactinfo' style={{ textDecoration: "none" }}><a style={{ color: '#03acbb', fontWeight: 'bold' }}> Back </a></Link>

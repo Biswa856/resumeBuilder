@@ -7,7 +7,7 @@ export default function Layout({children}) {
     <div className='container'>
         <div className='header'><Header/></div>
         <div className='content'>{children}</div>
-        <div className='footer'>Resume Builder</div>
+        <div className='footer'>Build Your Resume</div>
     </div>
   )
 }

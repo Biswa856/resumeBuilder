@@ -18,7 +18,30 @@ import Summary from './Pages/Summary';
 import Finalpage from './Pages/Finalpage';
 import Contact from './Pages/Contact';
 
+import { initializeApp } from "firebase/app";
+import { useEffect } from 'react';
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD8e4crmNtYQ--rdJChn37BcY0y49ou3vQ",
+  authDomain: "resume-builder-60a6f.firebaseapp.com",
+  projectId: "resume-builder-60a6f",
+  storageBucket: "resume-builder-60a6f.appspot.com",
+  messagingSenderId: "58816675864",
+  appId: "1:58816675864:web:2aeeb8243ac66297bec36d",
+  measurementId: "G-TM6VL107QM"
+};
+
+
 function App() {
+
+  const app = initializeApp(firebaseConfig);
+
+ 
+  
+  // Initialize Firebase
+  
+  
   return (
     <Router>
       <Provider store={store}>

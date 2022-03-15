@@ -1,11 +1,19 @@
 let initialState={
-    name:'',
-    email:'',
-    streetAddress:'',
-    city:'',
-    country:'',
-    phonenumber:'',
-    phonenumber2:'',
+    // name:'',
+    // email:'',
+    // streetAddress:'',
+    // city:'',
+    // country:'',
+    // phonenumber:'',
+    // phonenumber2:'',
+
+city: "",
+country: "",
+email: "",
+name: "",
+phonenumber: "",
+phonenumber2: "",
+streetAddress: "",
 
 } 
 

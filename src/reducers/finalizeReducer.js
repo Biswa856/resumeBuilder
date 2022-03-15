@@ -1,5 +1,5 @@
 const initialState ={
-    document: {
+    doc: {
         color: 1,
         fontsize: 1,
         fontfamily: 1,
@@ -8,11 +8,11 @@ const initialState ={
 
 const finalizeReducer = (state=initialState, action)=>{
     switch(action.type){
-        case 'DOCUMENT_STYLE_CHANGE': 
+        case 'doc_STYLE_CHANGE': 
         // console.log(action.payload);
         return {
             ...state,
-           document: action.payload
+           doc: action.payload
         };
     
         default : return state;
